@@ -45,6 +45,7 @@ pipeline{
 				sh 'chmod 600 AssignmentKey.pem'
 				sh 'terraform init'
 				sh 'terraform validate'
+				sh 'terraform plan'
 				sh 'terraform apply --auto-approve'
 			}
 		}
