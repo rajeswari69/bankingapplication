@@ -42,7 +42,7 @@ pipeline{
 		
 		stage('create infra'){
 		   steps{
-				sh 'sudo chmod 600 AssignmentKey.pem'
+				sh 'chmod 600 AssignmentKey.pem'
 				sh 'terraform init'
 				sh 'terraform validate'
 				sh 'terraform apply --auto-approve'
