@@ -1,7 +1,7 @@
 resource "aws_instance" "test-server" {
   ami           = "ami-03a933af70fa97ad2" 
   instance_type = "t2.micro" 
-  key_name = file("AssignmentKey.pem")
+  key_name = file("./AssignmentKey.pem")
   vpc_security_group_ids= ["sg-04fba683f37ca92fd"]
   
   provisioner "remote-exec" {
