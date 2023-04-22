@@ -6,7 +6,7 @@ resource "aws_instance" "test-server" {
   connection {
     type     = "ssh"
     user     = "ubuntu"
-    private_key = 'https://raw.githubusercontent.com/Aditya3328/finance-me1/main/AssignmentKey.pem'
+    private_key = "https://raw.githubusercontent.com/Aditya3328/finance-me1/main/AssignmentKey.pem"
     host     = self.public_ip
   }
   provisioner "remote-exec" {
