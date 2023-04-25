@@ -9,14 +9,10 @@ resource "aws_instance" "test" {
     private_key = "AssignmentKey.pem"
     host     = self.public_ip
   }
-  provisioner "remote-exec" {
-    inline = [ "echo 'wait to start instance' "]
-  }
+  
   tags = {
     Name = "test-server"
   }
-  provisioner "local-exec" {
-        command = " echo ${aws_instance.test.public_ip} > inventory "
-  }
+  
     
 }
