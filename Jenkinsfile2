@@ -43,14 +43,14 @@ pipeline{
 		stage('check infra validation'){
 		   steps{
 				sh 'chmod 777 AssignmentKey.pem'
-				sh 'sudo terraform init'
-				sh 'sudo terraform validate'
+				sh 'terraform init'
+				sh 'terraform validate'
 				echo "-------------------------------------------------------------------------------Validation Successful-------------------------------------------------------------------------------------------------"
 			}
 		}
 		stage('infra plan'){
 		   steps{
-				sh 'sudo terraform plan'
+				sh 'terraform plan'
 				echo "-------------------------------------------------------------------------------Plan Successful-------------------------------------------------------------------------------------------------"
 			}
 		}
