@@ -57,13 +57,13 @@ pipeline{
 		stage('create infra'){
 		   steps{
 		   		echo "-------------------------------------------------------------------------------Applying start-------------------------------------------------------------------------------------------------"
-				sh 'terraform apply --auto-approve'
+				sh 'terraform apply -auto-approve'
 				echo "-------------------------------------------------------------------------------apply end-------------------------------------------------------------------------------------------------"
 			}
 		}
 		stage('Deploy app using ansible'){
 			steps{
-			ansiblePlaybook credentialsId: 'ssh-key', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: 'deploy.yml'
+			ansiblePlaybook credentialsId: 'ssh-key', disableHostKeyChecking: true, installation: 'ansible', inventory: '/inventory', playbook: 'deploy.yml'
 			}
 		}
 	}
