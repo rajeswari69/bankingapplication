@@ -63,7 +63,7 @@ pipeline{
 		}
 		stage('Deploy app using ansible'){
 			steps{
-			ansiblePlaybook credentialsId: 'ssh-key', disableHostKeyChecking: true, installation: 'Ansible_home', inventory: '/var/lib/jenkins/workspace/demo/inventory', playbook: 'deploy.yml'
+			ansiblePlaybook credentialsId: 'ssh-key', disableHostKeyChecking: true, installation: 'Ansible_home', inventory: '/var/lib/jenkins/workspace/Finance-pipeline1/inventory', playbook: 'deploy.yml'
 			}
 		}
 	}
