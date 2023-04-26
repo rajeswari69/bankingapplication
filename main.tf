@@ -6,14 +6,14 @@ resource "aws_instance" "example" {
   connection {
     type     = "ssh"
     user     = "ubuntu"
-    private_key = "AssignmentKey.pem"
+    private_key = file("AssignmentKey.pem")
     host     = self.public_ip
   }
   tags = {
-    Name = "demo-instance" // set a name for the instance
+    Name = "deploy-server" // set a name for the instance
   }
     provisioner "local-exec" {
-        command = " echo ${aws_instance.example.public_ip} > inventory "
+         command = "echo ${aws_instance.example.public_ip} > inventory"
         
   }
 }
