@@ -4,6 +4,8 @@ resource "aws_instance" "test" {
   key_name = "AssignmentKey"
   vpc_security_group_ids= ["sg-04fba683f37ca92fd"]
   
-  
+  tags = {
+    Name = "test-server"
+  }
       
 }
