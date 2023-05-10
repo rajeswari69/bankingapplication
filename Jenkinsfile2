@@ -21,12 +21,12 @@ pipeline{
 				sh 'mvn clean package'
 			}
 		}
-		stage('publish reports using HTML'){
+		stage('publish HTML report'){
 			steps{
 				publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '/var/lib/jenkins/workspace/bankingapplication/target/surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
 			}
 		}
-		stage('Build the Docker image'){
+		stage('Build the image using docker'){
 			steps{
 				sh 'docker build -t rajeswari123/financeapp:latest .'
 			}
@@ -41,13 +41,13 @@ pipeline{
 
                 }
 
-		stage('push Image to DockerHub'){
+		stage('push Image in DockerHub'){
 			steps{
 				sh 'docker push rajeswari123/financeapp:latest'
 			}
 		}
 		
-		stage('create Infrastructure using terraform'){
+		stage('create newserver with terraform'){
 		   steps{
 				sh 'chmod 600 banking.pem'
 				sh 'terraform init'
