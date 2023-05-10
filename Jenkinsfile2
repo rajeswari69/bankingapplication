@@ -28,7 +28,7 @@ pipeline{
 		}
 		stage('Docker Image Creation'){
 			steps{
-				sh 'docker build -t rajeswari123/banking:latest .'
+				sh 'docker build -t rajeswari123/financeapp:latest .'
 			}
 		}
 		stage('Docker Login') {
@@ -43,7 +43,7 @@ pipeline{
 
 		stage('push Image to DockerHub'){
 			steps{
-				sh 'docker push rajeswari123/banking:latest'
+				sh 'docker push rajeswari123/financeapp:latest'
 			}
 		}
 		
@@ -52,12 +52,7 @@ pipeline{
 				sh 'chmod 600 banking.pem'
 				sh 'terraform init'
 				sh 'terraform validate'
-			}
-		}
-		stage('infra plan'){
-		   steps{
-				sh 'terraform plan'
-			
+                                sh 'terraform plan'
 			}
 		}
 		stage('create infra'){
