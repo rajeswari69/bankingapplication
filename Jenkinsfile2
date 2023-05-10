@@ -4,11 +4,15 @@ pipeline{
 		maven 'M2_HOME'
 		terraform 'TERRAFORM_HOME'
 	}
+       environment {
+          DOCKERHUB_CREDENTIALS= credentials('dockerhubcredentials')
+       }
+
 	stages{
 		stage('Git-CheckOut'){
 			steps {
 				echo 'CheckOut the source code form github'
-				git branch: 'main', url: 'https://github.com/Aditya3328/finance-me1.git'
+				git branch: 'main', url: 'https://github.com/rajeswari69/bankingapplication.git'
 			}
 		}
 		stage('Package the app'){
@@ -19,39 +23,41 @@ pipeline{
 		}
 		stage('publish reports using html'){
 			steps{
-				publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '/var/lib/jenkins/workspace/insure-demo/target/surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+				publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '/var/lib/jenkins/workspace/bankingapplication/target/surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
 			}
 		}
 		stage('Docker Image Creation'){
 			steps{
-				sh 'docker build -t aditya3328/finance-me:latest .'
+				sh 'docker build -t rajeswari123/banking:latest .'
 			}
 		}
-		stage('DockerLogin'){
-			steps{
-					withCredentials([usernamePassword(credentialsId: 'Docker-Hub', passwordVariable: 'dockerHubPass', usernameVariable: 'dockerHubUser')]) {
-					sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
-				}
-			}
-		}
+		stage('Docker Login') {
+
+                  steps {
+
+                      sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+
+                  } 
+
+                }
+
 		stage('push Image to DockerHub'){
 			steps{
-				sh 'docker push aditya3328/finance-me:latest'
+				sh 'docker push rajeswari123/banking:latest'
 			}
 		}
 		
 		stage('check infra validation'){
 		   steps{
-				sh 'chmod 600 AssignmentKey.pem'
+				sh 'chmod 600 banking.pem'
 				sh 'terraform init'
 				sh 'terraform validate'
-				echo "-------------------------------------------------------------------------------Validation Successful-------------------------------------------------------------------------------------------------"
 			}
 		}
 		stage('infra plan'){
 		   steps{
 				sh 'terraform plan'
-				echo "-------------------------------------------------------------------------------Plan Successful-------------------------------------------------------------------------------------------------"
+			
 			}
 		}
 		stage('create infra'){
@@ -63,7 +69,7 @@ pipeline{
 		}
 		stage('Deploy app using ansible'){
 			steps{
-			ansiblePlaybook credentialsId: 'ssh-key', disableHostKeyChecking: true, installation: 'Ansible_home', inventory: '/var/lib/jenkins/workspace/Finance-pipeline/inventory', playbook: 'deploy.yml'
+			ansiblePlaybook credentialsId: 'ssh-key', disableHostKeyChecking: true, installation: 'ansible', inventory: '/var/lib/jenkins/workspace/bankingapplication/inventory', playbook: 'deploy.yml'
 			}
 		}
 	}
